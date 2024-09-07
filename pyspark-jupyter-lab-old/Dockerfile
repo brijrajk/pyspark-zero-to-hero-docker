@@ -1,5 +1,5 @@
-# Base Python 3.7.10 image
-FROM python:3.7.10
+# Base Python 3.12 image
+FROM python:3.12
 
 # Expose Port
 EXPOSE 8888 4040
@@ -9,7 +9,7 @@ SHELL ["/bin/bash", "-c"]
 
 # Install OpenJDK
 RUN apt-get update && \
-    apt-get install -y openjdk-11-jdk && \
+    apt-get install -y openjdk-17-jdk && \
     apt-get clean;
     
 # Fix certificate issues
@@ -27,11 +27,11 @@ RUN export JAVA_HOME
 
 # Download and Setup Spark binaries
 WORKDIR /tmp
-RUN wget https://archive.apache.org/dist/spark/spark-3.3.0/spark-3.3.0-bin-hadoop3.tgz
-RUN tar -xvf spark-3.3.0-bin-hadoop3.tgz
-RUN mv spark-3.3.0-bin-hadoop3 spark
+RUN wget https://archive.apache.org/dist/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3.tgz
+RUN tar -xvf spark-3.5.1-bin-hadoop3.tgz
+RUN mv spark-3.5.1-bin-hadoop3 spark
 RUN mv spark /
-RUN rm spark-3.3.0-bin-hadoop3.tgz
+RUN rm spark-3.5.1-bin-hadoop3.tgz
 
 # Set up environment variables
 ENV SPARK_HOME /spark
@@ -50,9 +50,9 @@ RUN mv $SPARK_HOME/conf/spark-env.sh.template $SPARK_HOME/conf/spark-env.sh
 
 # Install Jupyter Lab, PySpark, Kafka, boto & Delta Lake
 RUN pip install jupyterlab
-RUN pip install pyspark==3.3.0
+RUN pip install pyspark==3.5.1
 RUN pip install kafka-python==2.0.2
-RUN pip install delta-spark==2.2.0
+RUN pip install delta-spark==3.2.0
 RUN pip install boto3
 
 # Change to working directory and clone git repo
@@ -60,7 +60,7 @@ WORKDIR /home/jupyter
 
 # Clone Ease with Apache Spark Repo to Start
 RUN git clone https://github.com/subhamkharwal/ease-with-apache-spark.git
-
+RUN git clone https://github.com/subhamkharwal/pyspark-zero-to-hero.git
 # Fix Jupyter logging issue
 RUN ipython profile create
 RUN echo "c.IPKernelApp.capture_fd_output = False" >> "/root/.ipython/profile_default/ipython_kernel_config.py"

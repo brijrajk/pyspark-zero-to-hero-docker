@@ -1,0 +1,3 @@
+[submodule "pyspark-cluster-with-jupyter/docker-spark"]
+	path = pyspark-cluster-with-jupyter/docker-spark
+	url = https://github.com/brijrajk/docker-spark.git
