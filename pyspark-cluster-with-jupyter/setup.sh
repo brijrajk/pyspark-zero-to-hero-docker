@@ -6,6 +6,8 @@ set -e
 REPO_URL="https://github.com/brijrajk/docker-spark.git"
 REPO_DIR="docker-spark"
 
+git pull
+git submodule update --init --recursive
 # Clone or pull the repository
 if [ -d "$REPO_DIR" ]; then
     echo "Repository already exists. Pulling the latest changes..."

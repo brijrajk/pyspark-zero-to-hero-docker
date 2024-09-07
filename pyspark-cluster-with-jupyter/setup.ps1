@@ -14,20 +14,21 @@ function ExitWithError {
 # Clone or pull the repository
 if (Test-Path $repoDir) {
     Write-Output "Repository already exists. Pulling the latest changes..."
-    Set-Location $repoDir
     try {
         git pull
+        git submodule update --init --recursive
+        Set-Location $repoDir
     } catch {
-        ExitWithError "Failed to pull the repository. Please check your Git setup."
+        ExitWithError "Failed to pull the repository or update submodules. Please check your Git setup."
     }
 } else {
     Write-Output "Cloning the repository from $repoUrl..."
     try {
-        git clone $repoUrl
+        git clone --recurse-submodules $repoUrl
+        Set-Location $repoDir
     } catch {
         ExitWithError "Failed to clone the repository. Please check your Git setup."
     }
-    Set-Location $repoDir
 }
 
 # Build Docker images
@@ -50,4 +51,3 @@ try {
 }
 
 Write-Output "Setup complete. Spark cluster is up and running!"
-
