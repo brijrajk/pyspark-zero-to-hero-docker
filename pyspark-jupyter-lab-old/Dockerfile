@@ -63,6 +63,8 @@ WORKDIR /home/jupyter/pyspark-zero-to-hero
 RUN mkdir -p /data/input/datasets && \
     cp -r datasets /data/input/datasets
 
+WORKDIR /home/jupyter/
+
 # Fix Jupyter logging issue
 RUN ipython profile create && \
     echo "c.IPKernelApp.capture_fd_output = False" >> "/root/.ipython/profile_default/ipython_kernel_config.py"
