@@ -68,7 +68,8 @@ RUN git clone https://github.com/subhamkharwal/ease-with-apache-spark.git
 RUN git clone https://github.com/subhamkharwal/pyspark-zero-to-hero.git
 WORKDIR /home/jupyter/pyspark-zero-to-hero
 
-RUN cp -r datasets /data/
+RUN mkdir -p /data/input/datasets
+RUN cp -r datasets /data/inputs/datasets
 
 RUN cd ..
 
