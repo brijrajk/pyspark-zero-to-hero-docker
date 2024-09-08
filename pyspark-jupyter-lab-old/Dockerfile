@@ -22,7 +22,7 @@ RUN apt-get install -y nano && \
     apt-get install -y vim;
 
 # Setup JAVA_HOME -- useful for docker commandline
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64/
 RUN export JAVA_HOME
 
 # Download and Setup Spark binaries
@@ -58,9 +58,21 @@ RUN pip install boto3
 # Change to working directory and clone git repo
 WORKDIR /home/jupyter
 
+RUN apt-get install git-lfs
+RUN git lfs install
+
 # Clone Ease with Apache Spark Repo to Start
 RUN git clone https://github.com/subhamkharwal/ease-with-apache-spark.git
+
+
 RUN git clone https://github.com/subhamkharwal/pyspark-zero-to-hero.git
+WORKDIR /home/jupyter/pyspark-zero-to-hero
+
+RUN cp -r datasets /data/
+
+RUN cd ..
+
+WORKDIR /home/jupyter
 # Fix Jupyter logging issue
 RUN ipython profile create
 RUN echo "c.IPKernelApp.capture_fd_output = False" >> "/root/.ipython/profile_default/ipython_kernel_config.py"
